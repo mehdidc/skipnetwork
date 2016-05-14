@@ -11,12 +11,12 @@ from tabulate import tabulate
 
 @task
 def train():
-	nb_epochs = 100
+	nb_epochs = 120
 	c = 1
 	w = 28
 	h = 28
 	learning_rate = 0.01
-	momentum = 0.5
+	momentum = 0.9
 	batchsize = 128
 
 	X = T.tensor4()
@@ -24,7 +24,7 @@ def train():
 	net = build_dense(
 		w=w, h=w, c=c, 
 		nb_hidden=50, nb_outputs=10, 
-		nb_blocks=3, layer_per_block=5)
+		nb_blocks=4, layer_per_block=3)
 	
 	print('Compiling the net...')
 
@@ -49,6 +49,8 @@ def train():
 	train = MNIST(which='train')
 	train.load()
 	train.X = preprocess(train.X)
+	train.X = train.X[0:128*10]
+	train.y = train.y[0:128*10]
 
 	test = MNIST(which='test')
 	test.load()
